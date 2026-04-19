@@ -58,8 +58,8 @@ En este ejercicio se implementó OLS (Mínimos Cuadrados Ordinarios) desde cero 
 
 **Pregunta 3.1** — Explica en tus propias palabras qué hace la fórmula β = (XᵀX)⁻¹ Xᵀy y por qué es necesario añadir una columna de unos a la matriz X.
 
-> La formula lo que hace es tener en cuenta todas las features para poder darle el valor más aproximado a la realidad, contempla la posibilidad de poseer repetidos para que no nos hagan ruido en nuestro modelo y define el peso de cada una de las features.
-> La columna de unos se crea para que el modelo tenga un punto de partida porque si le damos 0, matematicamente hablando, tiene que dar como resultado 0 (porque todo producto por 0 es 0)
+> La fórmula es la solución analítica de Mínimos Cuadrados Ordinarios (OLS) y lo que hace es tener en cuenta todas las features simultáneamente para entregarnos la predicción más aproximada a la realidad. En lugar de procesar los datos de forma aislada, el álgebra matricial evalúa todas las observaciones en conjunto para minimizar el error global frente al ruido, definiendo matemáticamente el peso exacto (los coeficientes $\beta$) de cada una de las variables.
+> La columna de unos se crea para que el modelo tenga un "punto de partida" base, lo que técnicamente se conoce como el intercepto ($\beta_0$). Es necesario añadirla porque si nuestras variables valen 0, matemáticamente la ecuación daría como resultado 0 (ya que todo producto por 0 es 0). Al omitir esta columna, estaríamos obligando al modelo a pasar por el origen de coordenadas, lo cual sesgaría completamente el ajuste, ya que en la realidad los fenómenos casi nunca parten de un cero absoluto
 
 **Pregunta 3.2** — Copia aquí los cuatro coeficientes ajustados por tu función y compáralos con los valores de referencia del enunciado.
 
@@ -70,15 +70,17 @@ En este ejercicio se implementó OLS (Mínimos Cuadrados Ordinarios) desde cero 
 | β₂        | -1.0       | -1.1170        | 0.1170         |
 | β₃        | 0.5        | 0.4385         | 0.0615         |
 
-> Los cuatro coeficientes se recuperan bastante bien. El error más grande es en β₀ (el intercepto), con una diferencia de 0.135, pero es esperable: con solo 160 muestras de entrenamiento y un ruido de σ=1.5, la desviación típica del estimador del intercepto es del orden de 0.12, así que ese error está dentro de lo normal. Los slopes (β₁, β₂, β₃) son los más importantes y se estiman con errores por debajo de 0.12, lo que valida que la implementación funciona correctamente.
+> Como se puede ver en la tabla, la función logró recuperar los coeficientes originales bastante bien. Es verdad que el intercepto ($\beta_0$) fue el que más le costó ajustar, con una diferencia de 0.1350 frente al valor real. Sin embargo, esto es algo que ya me esperaba: al entrenar el modelo con tan pocas muestras (solo 160) y con un ruido interno de $\sigma=1.5$, es lógico que haya un pequeño margen de error en ese punto de partida.
+> Lo que realmente me deja tranquilo de la prueba es la precisión que logró en los coeficientes principales ($\beta_1$, $\beta_2$ y $\beta_3$). En estos tres, el error fue bajísimo, lo que demuestra en la práctica que el código matricial en NumPy funciona bien y es capaz de capturar la relación real entre las variables sin ningún problema.
 
 **Pregunta 3.3** — ¿Qué valores de MAE, RMSE y R² has obtenido? ¿Se aproximan a los de referencia?
 
 > - **MAE = 1.1665** — error absoluto medio de poco más de 1 unidad.
 > - **RMSE = 1.4612** — muy cercano a σ_ε = 1.5 (el ruido real del modelo generador).
 > - **R² = 0.6897** — el modelo explica el 68.97% de la varianza en test.
->
-> El enunciado dice que se esperan MAE ≈ 1.20 (±0.20), RMSE ≈ 1.50 (±0.20) y R² ≈ 0.80 (±0.05). El MAE y el RMSE están dentro del rango de referencia. El R² (0.69) queda ligeramente por debajo del 0.80 esperado, pero esto es completamente coherente dado el diseño del experimento: con features N(0,1) y coeficientes [2, -1, 0.5], el R² teórico máximo alcanzable es aproximadamente 0.70, así que el modelo está prácticamente en el techo de lo que puede aprender con esas features. No se puede exprimir más sin cambiar el problema.
+
+> Si contrasto esto con lo que pedía el enunciado, veo que tanto el error absoluto (MAE) como el RMSE cayeron perfecto dentro de los márgenes esperados. De hecho, me parece súper interesante que el RMSE refleje de forma casi exacta el nivel de ruido que le inyectamos a los datos al principio ($\sigma = 1.5$).
+> El único punto que a simple vista podría llamar la atención es el $R^2$, que me dio cerca de 0.69 frente al 0.80 de referencia. Al principio lo revisé, pero analizándolo a fondo, es el resultado correcto. Por cómo está armado el experimento (con ese nivel de dispersión y esas características aleatorias), el modelo tiene un techo matemático que ronda justamente el 0.70. Es decir, el modelo no rinde menos de lo esperado, sino que aprendió el 100% de lo que esos datos podían enseñarle. Tratar de forzar un $R^2$ más alto sin cambiar la naturaleza del problema sería pedirle peras al olmo.
 
 ---
 
