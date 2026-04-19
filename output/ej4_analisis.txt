@@ -1,0 +1,18 @@
+Análisis del Residuo — Serie Temporal Sintética
+==================================================
+
+Estadísticos básicos:
+  Media:     0.127078
+  Std:       3.222043
+  Asimetría: -0.050917
+  Curtosis:  -0.061028
+
+Test de estacionariedad (ADF):
+  Estadístico ADF: -39.916048
+  p-valor:         0.000000
+  Conclusión:      Estacionario (p<0.05)
+
+Test de normalidad (Jarque-Bera):
+  Estadístico JB: 1.101349
+  p-valor:        0.576561
+  Conclusión:     No se rechaza normalidad (p>0.05)

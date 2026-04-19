@@ -1,0 +1,19 @@
+=== METRICAS DE REGRESION LINEAL — DIAMONDS ===
+
+--- Conjunto de ENTRENAMIENTO ---
+  MAE   : 864.8496
+  RMSE  : 1,360.7733
+  R2    : 0.8848
+
+--- Conjunto de TEST ---
+  MAE   : 840.7448
+  RMSE  : 1,312.4473
+  R2    : 0.8870
+
+--- ANALISIS DEL MODELO ---
+  Diferencia R² (train - test): -0.0022
+
+OK El modelo generaliza bien. La diferencia de R2 es
+   aceptable (< 0.10).
+
+  Calidad del modelo: BUENA  (R2 >= 0.85)
